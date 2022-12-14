@@ -1,0 +1,178 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+	int data;
+	struct node *address;
+};
+
+struct node* insertatend(struct node* head,int data)
+{
+	struct node* temp=(struct node*)malloc(sizeof(struct node));
+	temp->data=data;
+	temp->address=NULL;
+	if(head==NULL)
+	{
+		head=temp;
+	}
+	else
+	{
+	struct node* s = head;
+	while(s->address!=NULL)
+	{
+		s=s->address;
+	}
+	s->address=temp;
+	}
+	return head;
+}
+
+struct node* insertatfront(struct node* head,int data)
+{
+	struct node *temp = (struct node*)malloc(sizeof(struct node));
+	temp->data=data;
+	temp->address=NULL;
+	temp->address=head;
+	head=temp;
+	return head;
+}
+void deleteatend(struct node* head,int data)
+{
+	struct node*s=head;
+	while(s->address->address!=NULL)
+	{
+		s=s->address;
+		free(s->address);
+		s->address=NULL;
+	}
+}
+
+void deleteathead(struct node*head)
+{
+	struct node* temp=head;
+	head=head->address;
+	free(temp);
+}
+
+void delete_poss(struct node* head,int poss)
+{
+	struct node* s=head;
+	while((poss-1)>0)
+	{
+		s=s->address;
+	}
+	struct node* temp=s->address;
+	s->address=s->address->address;
+	free(temp);
+}
+struct node* middle_LL(struct node* head)
+{
+	struct node* slow=head;
+	struct node* fast=head;
+	if(head!=NULL)
+	{
+		while(fast!=NULL && fast->address != NULL)
+	    {
+		slow=slow->address;
+		fast=fast->address->address;
+	    }
+	}
+	return head;
+}
+int Nth_node(struct node* head,int index)
+{
+	if(head==NULL)
+	{
+		return -1;
+	}
+	if(index==0)
+	{
+		return head->data;
+	}
+	return Nth_node(head->address, index-1);
+}
+
+void insertafter(struct node* head,int data,int dataafter)
+{
+	struct node *temp = (struct node*)malloc(sizeof(struct node));
+	temp->data=data;
+	temp->address=NULL;
+	struct node* s=head;
+	while(s->data!=dataafter)
+	{
+		s=s->address;
+	}
+	temp->address = s->address;
+	s->address=temp;
+} 
+
+void printLL(struct node* head)
+{
+//	printf("%d",head->data);
+	struct node* s = head;
+	while(s!=NULL)
+	{
+		printf("%d->",s->data);
+		s=s->address;
+	}
+}
+int main()
+{
+	int data,c,dataafter,poss,index;
+	struct node* temp;
+	struct node* s;
+	struct node* slow;
+	struct node* fast;
+	struct node* head=NULL;
+	while(1){
+	
+	printf("\n 1.Insertatend =\n");
+	printf("\n 2.Insertatfront=\n");
+	printf("\n 3.Insertafter=\n");
+	printf("\n 4.Deleteatend=\n");
+	printf("\n 5.Deleteathead=\n");
+	printf("\n 6.Delete specific position=\n");
+	printf("\n 7.Middle Linked List=\n");
+	printf("\n 8.print Nth node=\n");
+	printf("\n 9.Print Linked List=\n");
+	printf("\n exit \n");
+	printf("\n Enter choice=\n");
+	scanf("%d",&c);
+	switch(c)
+	{
+		case 1: printf("Enter data=");
+		        scanf("%d",&data);
+		        head=insertatend(head,data);
+		        break;
+		
+		case 2: printf("Enter data=");
+		        scanf("%d",&data);
+		        head=insertatfront(head,data);
+		        break;
+		
+		case 3: insertafter(head,data,dataafter);
+		        break;
+		
+		case 4: deleteatend(head,data);
+		        break;
+		
+		case 5: deleteathead(head);
+		        break;
+		
+		case 6: delete_poss(head,poss);
+		        break;
+		
+		case 7: head=middle_LL(head);
+		        break;
+		case 8: Nth_node(head,index);
+		        break;
+		
+		case 9: printLL(head);
+		        break;
+						
+		default:exit(1);
+		
+	
+	}
+   } 
+}
